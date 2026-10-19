@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#18332b">
+  <meta name="description" content="Noria Habitat — un accompagnement clair pour imaginer et construire une maison au Bénin.">
+  <title>Noria Habitat — Construire au Bénin</title>
+  <style>
+    :root {
+      --forest: #18332b;
+      --forest-2: #25463b;
+      --cream: #f4f1e8;
+      --paper: #fbfaf6;
+      --sand: #e6dfcf;
+      --sage: #c4cdbd;
+      --brass: #ba9358;
+      --wood: #73533b;
+      --ink: #1d2c27;
+      --muted: #67716b;
+      --line: rgba(24, 51, 43, .17);
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Avenir Next", Avenir, "Segoe UI", Arial, sans-serif;
+      --wrap: 1320px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.65; }
+    body.modal-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--brass); outline-offset: 4px; }
+    .wrap { width: min(var(--wrap), calc(100% - 64px)); margin-inline: auto; }
+    .site-header { background: var(--forest); color: #f6f4ec; }
+    .nav { min-height: 88px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; min-width: 220px; }
+    .brand-mark { width: 38px; height: 38px; flex: none; }
+    .brand-name { display: block; font-family: var(--serif); font-size: 21px; line-height: 1.05; letter-spacing: -.025em; }
+    .brand-note { display: block; margin-top: 5px; color: #d4bd94; font-size: 10px; letter-spacing: .09em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: clamp(20px, 3vw, 44px); color: rgba(246,244,236,.82); font-size: 13px; }
+    .nav-links a { transition: color .2s ease; }
+    .nav-links a:hover { color: #fff; }
+    .nav-actions { display: flex; align-items: center; gap: 16px; }
+    .lang-switch { border: 0; color: #f6f4ec; background: transparent; padding: 8px 4px; font-size: 12px; font-weight: 700; letter-spacing: .08em; cursor: pointer; }
+    .nav-cta { padding: 12px 17px; border: 1px solid rgba(246,244,236,.45); font-size: 12px; letter-spacing: .015em; transition: background .2s, color .2s; }
+    .nav-cta:hover { background: #f6f4ec; color: var(--forest); }
+
+    .hero { padding: 42px 0 68px; background: var(--cream); }
+    .hero-grid { display: grid; grid-template-columns: minmax(360px, .88fr) minmax(420px, 1.12fr); align-items: center; gap: clamp(46px, 7vw, 104px); }
+    .hero-copy { padding: 22px 0 34px; }
+    .eyebrow { display: flex; align-items: center; gap: 12px; color: var(--wood); font-size: 11px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    .eyebrow::before { display: block; width: 27px; height: 1px; background: var(--brass); content: ""; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 630px; margin: 20px 0 22px; font-family: var(--serif); font-size: clamp(48px, 6.3vw, 82px); font-weight: 400; letter-spacing: -.055em; line-height: .99; }
+    .hero-copy > p { max-width: 510px; margin-bottom: 30px; color: #52615a; font-size: 16px; line-height: 1.8; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 13px; }
+    .button { min-height: 51px; display: inline-flex; align-items: center; justify-content: center; gap: 13px; border: 1px solid var(--forest); padding: 0 20px; cursor: pointer; font-size: 13px; font-weight: 650; transition: transform .2s, background .2s, color .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button-primary { background: var(--forest); color: #fff; }
+    .button-primary:hover { background: var(--forest-2); }
+    .button-quiet { background: transparent; color: var(--forest); }
+    .button-quiet:hover { background: rgba(24,51,43,.06); }
+    .button svg { width: 15px; height: 15px; }
+    .hero-foot { display: flex; align-items: center; gap: 14px; margin-top: 40px; color: #56635c; font-size: 12px; }
+    .hero-foot-mark { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid rgba(24,51,43,.3); border-radius: 50%; color: var(--forest); font-family: var(--serif); font-size: 17px; }
+    .hero-photo { min-height: 550px; position: relative; background: #b5a78f; overflow: hidden; }
+    .hero-photo img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; object-position: center; }
+    .photo-shade { position: absolute; inset: 42% 0 0; background: linear-gradient(0deg, rgba(17,35,28,.59), transparent); }
+    .photo-caption { position: absolute; bottom: 27px; left: 30px; right: 30px; display: flex; align-items: end; justify-content: space-between; gap: 20px; color: #fff; }
+    .photo-caption strong { display: block; max-width: 290px; font-family: var(--serif); font-size: 25px; font-weight: 400; line-height: 1.12; }
+    .photo-caption span { display: block; margin-top: 7px; color: rgba(255,255,255,.78); font-size: 11px; }
+    .photo-caption .caption-mark { color: #e1c28e; font-family: var(--serif); font-size: 34px; line-height: 1; }
+
+    .intro-band { background: var(--forest); color: #f6f4ec; }
+    .intro-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; min-height: 96px; align-items: center; gap: 28px; }
+    .intro-item { display: flex; align-items: center; justify-content: center; gap: 13px; color: rgba(246,244,236,.86); font-size: 12px; }
+    .intro-item:not(:last-child) { border-right: 1px solid rgba(246,244,236,.2); }
+    .intro-item svg { width: 19px; height: 19px; flex: none; color: #d8bc8b; }
+
+    .section { padding: 112px 0; }
+    .section-heading { max-width: 640px; }
+    .section-heading h2 { margin: 16px 0 17px; font-family: var(--serif); font-size: clamp(38px, 4.5vw, 58px); font-weight: 400; letter-spacing: -.045em; line-height: 1.04; }
+    .section-heading p { max-width: 510px; color: var(--muted); line-height: 1.8; }
+    .approach { background: var(--paper); }
+    .approach-top { display: flex; justify-content: space-between; align-items: end; gap: 48px; margin-bottom: 55px; }
+    .approach-top .section-heading { max-width: 620px; }
+    .approach-note { max-width: 235px; padding: 0 0 5px 22px; border-left: 1px solid var(--brass); color: #657169; font-family: var(--serif); font-size: 18px; line-height: 1.4; }
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+    .step { min-height: 220px; padding: 27px 28px 12px 0; }
+    .step + .step { padding-left: 28px; border-left: 1px solid var(--line); }
+    .step-index { display: block; margin-bottom: 35px; color: var(--brass); font-family: var(--serif); font-size: 18px; }
+    .step h3 { margin-bottom: 9px; font-family: var(--serif); font-size: 25px; font-weight: 400; }
+    .step p { max-width: 315px; margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+
+    .services { padding: 0 0 112px; background: var(--paper); }
+    .services-frame { display: grid; grid-template-columns: .8fr 1.2fr; gap: 10%; padding: 74px clamp(30px, 6vw, 80px); background: var(--sand); }
+    .services-copy { padding-top: 6px; }
+    .services-copy h2 { margin: 16px 0; font-family: var(--serif); font-size: clamp(38px, 4.1vw, 54px); font-weight: 400; letter-spacing: -.045em; line-height: 1.04; }
+    .services-copy p { color: #59665e; font-size: 14px; line-height: 1.8; }
+    .service-list { border-top: 1px solid rgba(24,51,43,.23); }
+    .service-row { display: grid; grid-template-columns: 45px 1fr 18px; align-items: center; gap: 13px; padding: 20px 0; border-bottom: 1px solid rgba(24,51,43,.23); }
+    .service-row .n { color: var(--wood); font-family: var(--serif); font-size: 17px; }
+    .service-row h3 { margin: 0; font-family: var(--serif); font-size: 22px; font-weight: 400; }
+    .service-row p { margin: 5px 0 0; color: #657169; font-size: 12px; line-height: 1.55; }
+    .service-row svg { width: 16px; height: 16px; color: var(--wood); }
+
+    .local { padding: 4px 0 112px; background: var(--paper); }
+    .local-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 9%; align-items: center; }
+    .local-aside { position: relative; min-height: 315px; padding: 42px; background: var(--forest-2); color: #f4f1e8; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+    .local-aside::after { position: absolute; width: 250px; height: 250px; right: -55px; bottom: -100px; border: 1px solid rgba(220,197,158,.35); border-radius: 50%; box-shadow: 0 0 0 22px rgba(220,197,158,.06), 0 0 0 48px rgba(220,197,158,.04); content: ""; }
+    .local-aside p { max-width: 270px; margin: 0; font-family: var(--serif); font-size: 27px; line-height: 1.25; }
+    .local-aside span { z-index: 1; color: #dfc797; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .local-list { margin-top: 27px; border-top: 1px solid var(--line); }
+    .local-point { display: flex; gap: 13px; padding: 15px 0; border-bottom: 1px solid var(--line); color: #59665e; font-size: 13px; }
+    .local-point::before { content: "—"; color: var(--brass); }
+
+    .closing { padding: 76px 0; background: var(--forest); color: #f7f4eb; }
+    .closing-inner { display: flex; align-items: center; justify-content: space-between; gap: 38px; }
+    .closing h2 { max-width: 650px; margin: 0; font-family: var(--serif); font-size: clamp(36px, 4.5vw, 57px); font-weight: 400; letter-spacing: -.04em; line-height: 1.08; }
+    .closing .button { flex: none; border-color: #ded0b6; background: #ded0b6; color: var(--forest); }
+    .closing .button:hover { background: #f3ead8; }
+    footer { background: #11251f; color: rgba(246,244,236,.78); }
+    .footer-main { display: flex; justify-content: space-between; align-items: start; gap: 32px; padding: 38px 0 29px; }
+    .footer-brand { color: #f7f4eb; }
+    .footer-brand .brand-note { color: #d4bd94; }
+    .footer-note { max-width: 390px; color: rgba(246,244,236,.62); font-size: 11px; line-height: 1.65; }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 25px; padding: 15px 0 20px; border-top: 1px solid rgba(246,244,236,.14); color: rgba(246,244,236,.56); font-size: 10px; }
+
+    .modal-backdrop { position: fixed; z-index: 10; inset: 0; display: none; align-items: center; justify-content: center; padding: 18px; background: rgba(13,29,23,.7); }
+    .modal-backdrop.is-open { display: flex; }
+    .modal { width: min(600px, 100%); max-height: min(92vh, 820px); overflow: auto; padding: 32px; background: var(--paper); box-shadow: 0 20px 70px rgba(0,0,0,.25); }
+    .modal-head { display: flex; justify-content: space-between; gap: 20px; align-items: start; }
+    .modal h2 { margin: 9px 0 6px; font-family: var(--serif); font-size: 36px; font-weight: 400; letter-spacing: -.035em; line-height: 1.05; }
+    .modal-intro { margin: 0 0 24px; color: var(--muted); font-size: 13px; }
+    .modal-close { display: grid; width: 38px; height: 38px; flex: none; place-items: center; border: 1px solid var(--line); background: transparent; color: var(--forest); cursor: pointer; font-size: 23px; line-height: 1; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+    .field { display: flex; flex-direction: column; gap: 6px; }
+    .field-full { grid-column: 1 / -1; }
+    .field label { color: #3b4e45; font-size: 11px; font-weight: 700; }
+    .field input, .field select, .field textarea { width: 100%; min-height: 44px; border: 1px solid #c9cec6; border-radius: 0; padding: 10px 12px; background: #fff; color: var(--ink); font-size: 13px; }
+    .field textarea { min-height: 91px; resize: vertical; }
+    .field input::placeholder, .field textarea::placeholder { color: #8b958e; }
+    .form-foot { margin-top: 19px; }
+    .form-foot .button { width: 100%; }
+    .form-disclaimer { margin: 12px 0 0; color: #717a73; font-size: 10px; line-height: 1.5; }
+    .form-status { display: none; margin-top: 16px; padding: 12px 14px; background: #e5ebdf; color: #2e5142; font-size: 12px; line-height: 1.55; }
+    .form-status.visible { display: block; }
+
+    @media (max-width: 900px) {
+      .wrap { width: min(var(--wrap), calc(100% - 42px)); }
+      .nav-links { gap: 17px; }
+      .brand { min-width: auto; }
+      .hero-grid { grid-template-columns: minmax(300px, .9fr) minmax(320px, 1.1fr); gap: 38px; }
+      .hero-photo { min-height: 470px; }
+      .intro-inner { gap: 14px; }
+      .services-frame { gap: 7%; padding-inline: 34px; }
+      .local-grid { gap: 6%; }
+    }
+    @media (max-width: 700px) {
+      body { font-size: 14px; }
+      .wrap { width: calc(100% - 36px); }
+      .nav { min-height: 72px; flex-wrap: wrap; gap: 8px; }
+      .brand-mark { width: 34px; height: 34px; }
+      .brand-name { font-size: 19px; }
+      .brand-note { font-size: 9px; }
+      .nav-links { order: 3; width: 100%; justify-content: space-between; padding: 0 0 13px; font-size: 11px; }
+      .nav-links a:last-child { display: none; }
+      .nav-actions { margin-left: auto; gap: 11px; }
+      .nav-cta { padding: 9px 11px; font-size: 10px; }
+      .hero { padding: 30px 0 38px; }
+      .hero-grid { display: flex; flex-direction: column; align-items: stretch; gap: 23px; }
+      .hero-copy { padding: 8px 0 0; }
+      h1 { max-width: 520px; margin: 16px 0; font-size: clamp(47px, 12vw, 67px); }
+      .hero-copy > p { margin-bottom: 21px; font-size: 14px; }
+      .actions { gap: 9px; }
+      .button { min-height: 47px; padding-inline: 14px; font-size: 11px; }
+      .hero-foot { margin-top: 22px; }
+      .hero-photo { min-height: 390px; }
+      .photo-caption { bottom: 20px; left: 20px; right: 20px; }
+      .photo-caption strong { font-size: 22px; }
+      .intro-inner { grid-template-columns: 1fr; gap: 0; padding: 8px 0; }
+      .intro-item { min-height: 48px; justify-content: flex-start; border-right: 0 !important; border-bottom: 1px solid rgba(246,244,236,.17); }
+      .intro-item:last-child { border-bottom: 0; }
+      .section { padding: 76px 0; }
+      .approach-top { display: block; margin-bottom: 32px; }
+      .approach-note { max-width: none; margin-top: 24px; }
+      .section-heading h2 { font-size: 42px; }
+      .steps { grid-template-columns: 1fr; }
+      .step, .step + .step { min-height: auto; padding: 21px 0 24px; border-left: 0; border-bottom: 1px solid var(--line); }
+      .step-index { margin-bottom: 16px; }
+      .services { padding-bottom: 76px; }
+      .services-frame { grid-template-columns: 1fr; gap: 28px; padding: 38px 23px; }
+      .services-copy h2 { font-size: 42px; }
+      .local { padding: 0 0 78px; }
+      .local-grid { grid-template-columns: 1fr; gap: 30px; }
+      .local-aside { min-height: 245px; padding: 29px; }
+      .local-aside p { font-size: 25px; }
+      .closing { padding: 58px 0; }
+      .closing-inner { display: block; }
+      .closing h2 { margin-bottom: 24px; font-size: 42px; }
+      .footer-main { display: block; padding: 29px 0 20px; }
+      .footer-note { margin-top: 22px; }
+      .footer-bottom { display: block; line-height: 1.8; }
+      .modal { padding: 24px 20px; }
+      .modal h2 { font-size: 32px; }
+    }
+    @media (max-width: 420px) {
+      .brand { gap: 8px; }
+      .nav-cta { max-width: 115px; line-height: 1.25; text-align: center; }
+      .hero-photo { min-height: 330px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field-full { grid-column: auto; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="#top" aria-label="Noria Habitat, accueil">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M5 32V19.5C5 11.5 11.5 5 20 5s15 6.5 15 14.5V32" stroke="#D7C093" stroke-width="1.5"/><path d="M11 32V20c0-4.9 4-8.9 9-8.9s9 4 9 8.9v12M2 32h36" stroke="#F6F4EC" stroke-width="1.5"/><path d="M15 32v-7h10v7" stroke="#D7C093" stroke-width="1.5"/></svg>
+        <span><span class="brand-name">Noria Habitat</span><span class="brand-note" data-fr="Nom provisoire" data-en="Working name">Nom provisoire</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Navigation principale">
+        <a href="#approche" data-fr="Notre approche" data-en="Our approach">Notre approche</a>
+        <a href="#services" data-fr="Nos services" data-en="Our services">Nos services</a>
+        <a href="#benin" data-fr="Construire au Bénin" data-en="Building in Benin">Construire au Bénin</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="lang-switch" type="button" aria-label="Passer à l’anglais" aria-pressed="false">EN</button>
+        <button class="nav-cta" type="button" data-open="appointment" data-fr="Demander un rendez-vous" data-en="Request a meeting">Demander un rendez-vous</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow" data-fr="Construire au Bénin, simplement" data-en="Building in Benin, made clearer">Construire au Bénin, simplement</div>
+          <h1 data-fr="Une maison à votre image. Pensée pour ici." data-en="A home that feels like you. Designed for here.">Une maison à votre image. Pensée pour ici.</h1>
+          <p data-fr="Du premier échange aux grandes décisions, avançons avec une vision claire pour imaginer une maison durable, adaptée au climat et à votre façon de vivre." data-en="From the first conversation to the big decisions, move forward with a clear plan for a lasting home shaped around the climate and the way you live.">Du premier échange aux grandes décisions, avançons avec une vision claire pour imaginer une maison durable, adaptée au climat et à votre façon de vivre.</p>
+          <div class="actions">
+            <button class="button button-primary" type="button" data-open="appointment"><span data-fr="Demander un rendez-vous" data-en="Request a meeting">Demander un rendez-vous</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button>
+            <button class="button button-quiet" type="button" data-open="quote"><span data-fr="Demander un devis" data-en="Request a quote">Demander un devis</span></button>
+          </div>
+          <div class="hero-foot"><span class="hero-foot-mark" aria-hidden="true">N</span><span data-fr="Un projet au Bénin, où que vous soyez." data-en="A project in Benin, wherever you are.">Un projet au Bénin, où que vous soyez.</span></div>
+        </div>
+        <div class="hero-photo">
+          <img src="./hero.jpg" alt="Maison contemporaine ouverte sur un jardin tropical" fetchpriority="high">
+          <div class="photo-shade"></div>
+          <div class="photo-caption"><div><strong data-fr="La vie dedans, dehors." data-en="Life, indoors and out.">La vie dedans, dehors.</strong><span data-fr="Des espaces dessinés autour de la lumière." data-en="Spaces shaped around the light.">Des espaces dessinés autour de la lumière.</span></div><span class="caption-mark" aria-hidden="true">N.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intro-band" aria-label="Engagements">
+      <div class="wrap intro-inner">
+        <div class="intro-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 19V9l8-5 8 5v10M8 19v-6h8v6M2 19h20" stroke="currentColor" stroke-width="1.35"/></svg><span data-fr="Des choix adaptés au climat" data-en="Choices shaped by the climate">Des choix adaptés au climat</span></div>
+        <div class="intro-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.35"/><path d="M5.5 20v-1.5a6.5 6.5 0 0 1 13 0V20M3 20h18" stroke="currentColor" stroke-width="1.35"/></svg><span data-fr="Un accompagnement à taille humaine" data-en="Personal, human support">Un accompagnement à taille humaine</span></div>
+        <div class="intro-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v14H4zM8 9h8M8 12h8M8 15h5" stroke="currentColor" stroke-width="1.35"/></svg><span data-fr="Des étapes et un budget lisibles" data-en="Clear steps and budget">Des étapes et un budget lisibles</span></div>
+      </div>
+    </section>
+
+    <section class="section approach" id="approche">
+      <div class="wrap">
+        <div class="approach-top">
+          <div class="section-heading">
+            <div class="eyebrow" data-fr="Une démarche claire" data-en="A clear process">Une démarche claire</div>
+            <h2 data-fr="Chaque décision compte. Vous gardez le fil." data-en="Every decision matters. You stay in the loop.">Chaque décision compte. Vous gardez le fil.</h2>
+            <p data-fr="Construire, c’est beaucoup de choix. Nous les mettons dans le bon ordre, avec des échanges simples et des repères à chaque étape." data-en="Building a home means making many choices. We put them in a thoughtful order, with straightforward conversations and clear milestones along the way.">Construire, c’est beaucoup de choix. Nous les mettons dans le bon ordre, avec des échanges simples et des repères à chaque étape.</p>
+          </div>
+          <div class="approach-note" data-fr="Un projet bien mené commence par les bonnes questions." data-en="A well-planned home starts with the right questions.">Un projet bien mené commence par les bonnes questions.</div>
+        </div>
+        <div class="steps">
+          <article class="step"><span class="step-index">01</span><h3 data-fr="Écouter" data-en="Listen">Écouter</h3><p data-fr="Votre terrain, vos usages, vos priorités. Nous posons ensemble les bases du projet." data-en="Your site, your routines, your priorities. Together, we establish the foundations of the project.">Votre terrain, vos usages, vos priorités. Nous posons ensemble les bases du projet.</p></article>
+          <article class="step"><span class="step-index">02</span><h3 data-fr="Concevoir" data-en="Design">Concevoir</h3><p data-fr="Une proposition claire pour discuter des espaces, des matériaux et de l’enveloppe budgétaire." data-en="A considered proposal to discuss spaces, materials and the budget range.">Une proposition claire pour discuter des espaces, des matériaux et de l’enveloppe budgétaire.</p></article>
+          <article class="step"><span class="step-index">03</span><h3 data-fr="Construire" data-en="Build">Construire</h3><p data-fr="Un suivi régulier et des échanges transparents pour avancer avec confiance." data-en="Regular progress updates and open communication to help you move forward with confidence.">Un suivi régulier et des échanges transparents pour avancer avec confiance.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="wrap">
+        <div class="services-frame">
+          <div class="services-copy">
+            <div class="eyebrow" data-fr="De l’idée au quotidien" data-en="From idea to everyday life">De l’idée au quotidien</div>
+            <h2 data-fr="Le bon niveau d’accompagnement, pour votre projet." data-en="The right support for your project.">Le bon niveau d’accompagnement, pour votre projet.</h2>
+            <p data-fr="Chaque projet est différent. Parlons de ce qui est déjà en place et de ce qu’il vous reste à imaginer." data-en="Every project is different. Let’s talk about what’s already in place and what you still need to figure out.">Chaque projet est différent. Parlons de ce qui est déjà en place et de ce qu’il vous reste à imaginer.</p>
+          </div>
+          <div class="service-list">
+            <article class="service-row"><span class="n">01</span><div><h3 data-fr="Conception de maison" data-en="Home design">Conception de maison</h3><p data-fr="Des espaces fonctionnels, lumineux et adaptés à votre terrain." data-en="Functional, light-filled spaces shaped around your site.">Des espaces fonctionnels, lumineux et adaptés à votre terrain.</p></div><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.4"/></svg></article>
+            <article class="service-row"><span class="n">02</span><div><h3 data-fr="Construction de maison" data-en="Home construction">Construction de maison</h3><p data-fr="Un accompagnement attentif, du cadrage du projet jusqu’au chantier." data-en="Thoughtful support from project planning through the build.">Un accompagnement attentif, du cadrage du projet jusqu’au chantier.</p></div><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.4"/></svg></article>
+            <article class="service-row"><span class="n">03</span><div><h3 data-fr="Suivi de projet" data-en="Project coordination">Suivi de projet</h3><p data-fr="Des points réguliers pour garder le cap, y compris à distance." data-en="Regular check-ins to keep the project on track, including from afar.">Des points réguliers pour garder le cap, y compris à distance.</p></div><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.4"/></svg></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="local" id="benin">
+      <div class="wrap local-grid">
+        <div class="local-aside"><p data-fr="Le lieu n’est pas un détail. C’est le début de l’architecture." data-en="Place is not a detail. It is where architecture begins.">Le lieu n’est pas un détail. C’est le début de l’architecture.</p><span data-fr="Un regard ancré au Bénin" data-en="Rooted in Benin">Un regard ancré au Bénin</span></div>
+        <div>
+          <div class="section-heading"><div class="eyebrow" data-fr="Le contexte fait le projet" data-en="Context shapes the project">Le contexte fait le projet</div><h2 data-fr="Construire ici, avec attention." data-en="Building here, with care.">Construire ici, avec attention.</h2><p data-fr="L’orientation, l’ombre, la ventilation et les usages du quotidien méritent d’être pensés dès les premiers croquis. C’est ainsi qu’une maison trouve sa place." data-en="Orientation, shade, airflow and daily routines deserve attention from the first sketches. That is how a home finds its place.">L’orientation, l’ombre, la ventilation et les usages du quotidien méritent d’être pensés dès les premiers croquis. C’est ainsi qu’une maison trouve sa place.</p></div>
+          <div class="local-list"><div class="local-point" data-fr="Une réflexion adaptée à l’ensoleillement et aux saisons" data-en="Design mindful of sunshine and the seasons">Une réflexion adaptée à l’ensoleillement et aux saisons</div><div class="local-point" data-fr="Des matériaux à choisir selon le site et le projet" data-en="Materials selected for the site and the project">Des matériaux à choisir selon le site et le projet</div><div class="local-point" data-fr="Un dialogue simple, même quand vous êtes à l’étranger" data-en="Straightforward communication, even from abroad">Un dialogue simple, même quand vous êtes à l’étranger</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="wrap closing-inner"><h2 data-fr="Vous imaginez une maison au Bénin ? Commençons par en parler." data-en="Imagining a home in Benin? Let’s start with a conversation.">Vous imaginez une maison au Bénin ? Commençons par en parler.</h2><button class="button" type="button" data-open="quote"><span data-fr="Demander un devis" data-en="Request a quote">Demander un devis</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-main">
+      <a class="brand footer-brand" href="#top" aria-label="Noria Habitat, accueil"><svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M5 32V19.5C5 11.5 11.5 5 20 5s15 6.5 15 14.5V32" stroke="#D7C093" stroke-width="1.5"/><path d="M11 32V20c0-4.9 4-8.9 9-8.9s9 4 9 8.9v12M2 32h36" stroke="#F6F4EC" stroke-width="1.5"/><path d="M15 32v-7h10v7" stroke="#D7C093" stroke-width="1.5"/></svg><span><span class="brand-name">Noria Habitat</span><span class="brand-note" data-fr="Nom provisoire" data-en="Working name">Nom provisoire</span></span></a>
+      <p class="footer-note" data-fr="Prototype de site. Le nom Noria Habitat est une proposition provisoire à valider officiellement. Les coordonnées, références et informations opérationnelles de l’agence restent à confirmer." data-en="Website prototype. Noria Habitat is a proposed working name and must be formally validated. Agency contact details, references and operational information are still to be confirmed.">Prototype de site. Le nom Noria Habitat est une proposition provisoire à valider officiellement. Les coordonnées, références et informations opérationnelles de l’agence restent à confirmer.</p>
+    </div>
+    <div class="wrap footer-bottom"><span>© <span id="year"></span> Noria Habitat</span><span data-fr="Bénin · Une maison commence par une conversation." data-en="Benin · A home begins with a conversation.">Bénin · Une maison commence par une conversation.</span></div>
+  </footer>
+
+  <div class="modal-backdrop" id="lead-modal" role="presentation">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="form-title" aria-describedby="form-intro">
+      <div class="modal-head"><div><div class="eyebrow" data-fr="Parlons de votre projet" data-en="Let’s talk about your project">Parlons de votre projet</div><h2 id="form-title">Demander un rendez-vous</h2></div><button class="modal-close" type="button" aria-label="Fermer" data-close>&times;</button></div>
+      <p class="modal-intro" id="form-intro" data-fr="Quelques détails nous aideront à préparer un premier échange utile." data-en="A few details will help us prepare for a useful first conversation.">Quelques détails nous aideront à préparer un premier échange utile.</p>
+      <form id="lead-form">
+        <div class="form-grid">
+          <div class="field"><label for="full-name" data-fr="Votre nom" data-en="Your name">Votre nom</label><input id="full-name" name="name" autocomplete="name" required placeholder="Prénom et nom" data-fr-placeholder="Prénom et nom" data-en-placeholder="First and last name"></div>
+          <div class="field"><label for="email" data-fr="Adresse e-mail" data-en="Email address">Adresse e-mail</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="vous@exemple.com" data-fr-placeholder="vous@exemple.com" data-en-placeholder="you@example.com"></div>
+          <div class="field"><label for="phone" data-fr="Téléphone (facultatif)" data-en="Phone (optional)">Téléphone (facultatif)</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+229 …" data-fr-placeholder="+229 …" data-en-placeholder="+229 …"></div>
+          <div class="field"><label for="location" data-fr="Lieu du projet" data-en="Project location">Lieu du projet</label><input id="location" name="location" placeholder="Ville ou région au Bénin" data-fr-placeholder="Ville ou région au Bénin" data-en-placeholder="City or region in Benin"></div>
+          <div class="field field-full"><label for="project-type" data-fr="Où en êtes-vous ?" data-en="Where are you in the process?">Où en êtes-vous ?</label><select id="project-type" name="stage"><option value="" data-fr="Choisir une étape" data-en="Choose a stage">Choisir une étape</option><option value="land" data-fr="Je cherche un terrain" data-en="I’m looking for land">Je cherche un terrain</option><option value="design" data-fr="Je prépare les plans" data-en="I’m planning the design">Je prépare les plans</option><option value="build" data-fr="Je souhaite construire" data-en="I’m ready to build">Je souhaite construire</option><option value="other" data-fr="Autre question" data-en="Something else">Autre question</option></select></div>
+          <div class="field field-full"><label for="message" data-fr="Quelques mots sur votre projet" data-en="A few words about your project">Quelques mots sur votre projet</label><textarea id="message" name="message" placeholder="Ce que vous imaginez, vos délais, vos questions…" data-fr-placeholder="Ce que vous imaginez, vos délais, vos questions…" data-en-placeholder="What you have in mind, timing, questions…"></textarea></div>
+        </div>
+        <div class="form-foot"><button class="button button-primary" type="submit"><span data-fr="Envoyer ma demande" data-en="Send my request">Envoyer ma demande</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 10h13M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5"/></svg></button><p class="form-disclaimer" data-fr="Prototype : le formulaire ne transmet pas encore les informations. Un canal de contact devra être raccordé avant la mise en service." data-en="Prototype: this form does not send information yet. A contact channel must be connected before launch.">Prototype : le formulaire ne transmet pas encore les informations. Un canal de contact devra être raccordé avant la mise en service.</p><div class="form-status" id="form-status" role="status" aria-live="polite"></div></div>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      const modal = document.getElementById('lead-modal');
+      const formTitle = document.getElementById('form-title');
+      const status = document.getElementById('form-status');
+      const languageButton = document.querySelector('.lang-switch');
+      let locale = 'fr';
+      let activeKind = 'appointment';
+      let previousFocus = null;
+      const titleText = {
+        appointment: { fr: 'Demander un rendez-vous', en: 'Request a meeting' },
+        quote: { fr: 'Demander un devis', en: 'Request a quote' }
+      };
+      const statusText = {
+        fr: 'Merci. Votre demande a bien été préparée dans cette maquette, mais elle n’a pas été transmise : le site doit encore être raccordé à une adresse ou à un service de contact.',
+        en: 'Thank you. Your request was prepared in this prototype but was not sent: the site still needs to be connected to an email address or contact service.'
+      };
+      function setLocale(next) {
+        locale = next;
+        document.documentElement.lang = locale;
+        document.querySelectorAll('[data-fr][data-en]').forEach(el => { el.textContent = el.dataset[locale]; });
+        document.querySelectorAll('[data-fr-placeholder][data-en-placeholder]').forEach(el => { el.placeholder = el.dataset[`${locale}Placeholder`]; });
+        document.querySelectorAll('#project-type option[data-fr][data-en]').forEach(el => { el.textContent = el.dataset[locale]; });
+        languageButton.textContent = locale === 'fr' ? 'EN' : 'FR';
+        languageButton.setAttribute('aria-pressed', locale === 'en' ? 'true' : 'false');
+        languageButton.setAttribute('aria-label', locale === 'fr' ? 'Passer à l’anglais' : 'Switch to French');
+        document.title = locale === 'fr' ? 'Noria Habitat — Construire au Bénin' : 'Noria Habitat — Building in Benin';
+        document.querySelector('.nav-links').setAttribute('aria-label', locale === 'fr' ? 'Navigation principale' : 'Main navigation');
+        document.querySelector('.hero-photo img').alt = locale === 'fr' ? 'Maison contemporaine ouverte sur un jardin tropical' : 'Contemporary home opening onto a tropical garden';
+        document.querySelector('.modal-close').setAttribute('aria-label', locale === 'fr' ? 'Fermer' : 'Close');
+        formTitle.textContent = titleText[activeKind][locale];
+        if (status.classList.contains('visible')) status.textContent = statusText[locale];
+      }
+      function openModal(kind) {
+        activeKind = kind;
+        previousFocus = document.activeElement;
+        formTitle.textContent = titleText[activeKind][locale];
+        status.classList.remove('visible');
+        status.textContent = '';
+        modal.classList.add('is-open');
+        document.body.classList.add('modal-open');
+        document.getElementById('full-name').focus();
+      }
+      function closeModal() {
+        modal.classList.remove('is-open');
+        document.body.classList.remove('modal-open');
+        if (previousFocus) previousFocus.focus();
+      }
+      document.querySelectorAll('[data-open]').forEach(button => button.addEventListener('click', () => openModal(button.dataset.open)));
+      document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', closeModal));
+      modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
+      document.addEventListener('keydown', event => { if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+      languageButton.addEventListener('click', () => setLocale(locale === 'fr' ? 'en' : 'fr'));
+      document.getElementById('lead-form').addEventListener('submit', event => {
+        event.preventDefault();
+        if (!event.currentTarget.reportValidity()) return;
+        status.textContent = statusText[locale];
+        status.classList.add('visible');
+        status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
